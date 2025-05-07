@@ -1,0 +1,2161 @@
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <style>
+    .gridlines .domain {
+      display: none;
+    }
+
+    .gridlines line {
+      stroke: #aaa;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    p {
+      line-height: 30px;
+    }
+
+    #title {
+      text-align: center;
+    }
+
+    #limitations {
+      width: 50%;
+      margin-left: 25%;
+    }
+
+    #leftIntro,
+    #rightIntro {
+      width: 300px !important;
+    }
+
+    #firstSection {
+      width: 50%;
+      padding: 2%;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .section {
+      justify-content: center;
+    }
+
+    .row .textContent {
+      width: 25%;
+    }
+
+    #langTrack,
+    #langDist,
+    #rankTrack {
+      border-radius: 10px;
+      border: 2px dashed black !important;
+      padding-top: 3%;
+      padding-bottom: 5%;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    #rankTrack {
+      padding-top: 8% !important;
+    }
+
+    #dist-map {
+      border: 2px solid black;
+    }
+
+    .info {
+      line-height: normal !important;
+    }
+
+
+    #st-map {
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+      border-top: 2px solid black;
+      border-bottom: 2px dotted black;
+
+    }
+
+    #st-details {
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+      border-top: 2px dotted black;
+      border-bottom: 2px solid black;
+    }
+
+    #st-svgs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .interactable {
+      cursor: pointer;
+    }
+
+    .spaceRight {
+      margin-right: 50px;
+    }
+
+    .spaceLeft {
+      margin-left: 50px;
+
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="row">
+    <svg id="leftIntro" width="300" height="800"></svg>
+    <div id="firstSection">
+      <h1 id="title">Language Diversity in the United States</h1>
+
+
+
+      <div id="intro">
+        <p>
+          Language is how we communicate with one another. Language influences culture, and culture influences language.
+          When
+          a diverse collection of languages is spoken in an area, language contact occurs where the languages influence
+          each
+          other.
+        </p>
+
+        <p>
+          On March 1st, 2025, <a
+            href="https://www.whitehouse.gov/presidential-actions/2025/03/designating-english-as-the-official-language-of-the-united-states/">
+            English was designated as the official language of the United States</a>. Since its conception, the United
+          States did not have an official language,
+          yet most people recognized English as the dominant language.
+        </p>
+        <p>
+          The United States, however, is known for being diverse and a blend of various cultures and languages around
+          the
+          world. The language diversity of the United States is important to highlight - it provides unique perspectives
+          and
+          knowledge that enriches our culture.
+        </p>
+      </div>
+
+      <div id="allEnglish">
+        <h2>Does Everyone Speak English in the US?</h2>
+        <p>
+          No.
+        </p>
+        <p>
+          Okay, most people speak English. Roughly 79.29% of the population 5 years and older -- or over 231 million
+          people -- speak
+          English only. There's also an additional 35 million people (12.08% of the population) who speak English and
+          another language.
+          Finally,
+          there are over 25 million people (8.62% of the population) that speak another language and are not proficient
+          in
+          English.
+        </p>
+        <p>
+          What does this mean? Well, it means that <strong>over 60 million people (20.7% of the population) speak
+            another language.</strong> That's a lot of people. Let's see what different languages are spoken by this
+          population.
+
+        </p>
+
+      </div>
+
+    </div>
+    <svg id="rightIntro" width="300" height="800"></svg>
+
+  </div>
+
+
+
+
+  <br>
+
+  <section>
+    <div class="section">
+
+
+    </div>
+
+  </section>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <section>
+
+    <div class="row section">
+      <svg id="us-pop" width="750" height="750"></svg>
+      <div class="textContent">
+        <h2>Most Common Languages in the US</h2>
+        <p>These are all the languages that have at least half a million speakers (besides English) in the US.</p>
+        <p>By a long-shot, Spanish is the second most common language in the US with almost 37.5
+          million speakers.</p>
+        <p>
+          There are 4 Asian & Pacific Islander languages: Chinese, Tagalog, Vietnamese, and Korean. There are 8
+          Indo-European languages (besides Spanish): French, German, Russian, French Creole, Italian, Portuguese, Hindi,
+          and Polish. There is only 1 language that does not fit these categories: Arabic
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <section id="state-section">
+    <div class="row section">
+
+      <div class="textContent spaceRight">
+        <h2 id="numCommon">The 2nd Most Common Language by State</h2>
+        <div id="rankTrack">
+          <label><strong>Choose a rank:</strong> </label>
+          <input id="numberInput" class="interactable" type="number" value="2" placeholder="1" min="1" max="251" />
+          <p class="info">
+            <em>By selecting a rank, you will see each state's corresponding most common language.</em>
+          </p>
+
+          <h4 id="comboStLang">
+            Click on a state to see how many speakers there are for the 2nd most common language.
+          </h4>
+        </div>
+
+        <br>
+
+        <div id="langTrack">
+          <h3>Track a Language</h3>
+          <p class="info">
+            <em>By selecting a language, you will see if or where it is located on the map for the selected
+              rank.</em>
+          </p>
+          <select id="filterSt" class="interactable">
+            <option selected value> Select a language </option>
+          </select>
+          <h4 id="langStTracker">No language selected...</h4>
+          <h4 id="lang4St">
+            Select a language and a state to see how many speakers there are in that state.
+          </h4>
+        </div>
+
+        <br>
+
+        <br>
+        <p id="numLangs">
+          Click on a state to see the number of langauges spoken.
+        </p>
+        <br>
+        <p id="propText">
+          Click on a state to see the percentage of English, Spanish, and every other language spoken.
+        </p>
+        <br>
+        <p id="topTenText">
+          Click on a state to see the top ten languages spoken besides English and Spanish.
+        </p>
+      </div>
+
+      <divn id="st-svgs">
+        <svg id="st-map" width="750" height="600"></svg>
+        <svg id="st-details" width="750" height="600"></svg>
+    </div>
+
+
+
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <section>
+    <div class="row section">
+      <svg id="dist-map" width="750" height="600"></svg>
+
+      <div class="textContent spaceLeft">
+        <h2>Language Distribution</h2>
+        <div id="langDist">
+          <p>
+            <strong>
+              Select a language:
+            </strong>
+          </p>
+
+          <select id="filterDist" class="interactable">
+          </select>
+          <p class="info">
+            <em>
+              By selecting a language, you will see where the languages is spoken and hotspots across the US.
+            </em>
+          </p>
+        </div>
+        <br>
+
+        <!-- Total number of speakers of the language -->
+        <p id="langTotal">
+          There are [INSERT SOME NUMBER] speakers of Spanish in the US.
+        </p>
+        <br>
+
+        <!-- State that has the most speakers -->
+        <p id="langMost">
+          CALIFORNIA has the most Spanish speakers with [INSERT SOME NUMBER]
+        </p>
+        <br>
+
+        <!-- State that has the largest percentage (of their population) of language speakers -->
+        <p id="langPercentage">
+          PUERTO RICO has the largest percentage of Spanish speakers with [INSERT SOME PERCENTAGE] ([INSERT SOME NUMBER]
+          speakers)
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <section>
+    <div class="section">
+      <div id="limitations">
+        <h2>Data Limitations</h2>
+        <p>
+          All the data comes from the US Census Bureau. Data relating to languages spoken at home and English
+          proficiency are from the 2009-2013 estimate. Some languages may be grouped or named inappropriately.
+        </p>
+        <p>
+          The US Census Bureau does not recognize American Sign Language and other signed languages as "languages". This
+          means that there are not decent estimates of sign language users in the US or in individual states.
+        </p>
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <script>
+    // --- Left and Right (of Intro) Designs ---
+    const leftSvg = d3.select("#leftIntro");
+    const leftWidth = leftSvg.attr("width");
+    const leftHeight = leftSvg.attr("height");
+    const leftChart = leftSvg.append("g")
+      .attr("id", "leftChart");
+
+    const rightSvg = d3.select("#rightIntro");
+    const rightWidth = rightSvg.attr("width");
+    const rightHeight = rightSvg.attr("height");
+    const rightChart = rightSvg.append("g")
+      .attr("id", "rightChart");
+
+    // --- Most Common Languages in the US - Lollipop ---
+    const upSvg = d3.select("#us-pop");
+    const upWidth = upSvg.attr("width");
+    const upHeight = upSvg.attr("height");
+    const upMargin = { top: 20, right: 20, bottom: 50, left: 100 };
+    const upChartWidth = upWidth - upMargin.left - upMargin.right;
+    const upChartHeight = upHeight - upMargin.top - upMargin.bottom;
+    const upChart = upSvg.append("g")
+      .attr("id", "upChart")
+      .attr("transform", `translate(${upMargin.left},${upMargin.top})`);
+
+    // --- Most Common Languages by State - Map ---
+    const stSvg = d3.select("#st-map");
+    const stWidth = stSvg.attr("width");
+    const stHeight = stSvg.attr("height");
+    const stMargin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const stChartWidth = stWidth - stMargin.left - stMargin.right;
+    const stChartHeight = stHeight - stMargin.top - stMargin.bottom;
+    const stChart = stSvg.append("g")
+      .attr("id", "stChart")
+      .attr("transform", `translate(${stMargin.left},${stMargin.top})`);
+
+    // --- Most Common Languages by State - Details ---
+    const detailSvg = d3.select("#st-details");
+    const detailWidth = detailSvg.attr("width");
+    const detailHeight = detailSvg.attr("height");
+    const detailMargin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const detailChartWidth = detailWidth - detailMargin.left - detailMargin.right
+    const detailChartHeight = detailHeight - detailMargin.top - detailMargin.bottom
+    const detailChart = detailSvg.append("g")
+      .attr("id", "detailChart")
+      .attr("transform", `translate(${detailMargin.left},${detailMargin.top})`)
+
+    const distSvg = d3.select("#dist-map")
+    const distWidth = distSvg.attr("width")
+    const distHeight = distSvg.attr("height")
+    const distMargin = { top: 10, right: 10, bottom: 10, left: 10 }
+    const distChartWidth = distWidth - distMargin.left - distMargin.right
+    const distChartHeight = distHeight - distMargin.top - distMargin.bottom
+    const distChart = distSvg.append("g")
+      .attr("id", "distChart")
+      .attr("transform", `translate(${distMargin.left},${distMargin.top})`)
+
+    const requestData = async function () {
+      var us_lang = await d3.csv("us_lang_data.csv");
+      var states_lang = await d3.csv("states_lang_data.csv");
+
+      console.log("US Language Data", us_lang)
+      console.log("State Language Data", states_lang)
+      // ------ Important Variables ------
+
+      var selectedState = null
+
+      commaFormat = d3.format(",");
+      percentFormat = d3.format(".2f")
+
+      // If rank = 2 then looking at 2nd most common
+      var rank = 2
+
+      let radius = 20
+      let boxHeight = 30
+      let boxWidth = 30
+
+      // --- Dictionary Mappings
+      const state2Abb = {
+        'alabama': "AL",
+        'alaska': "AK",
+        'arizona': "AZ",
+        'arkansas': "AR",
+        'california': "CA",
+        'colorado': "CO",
+        'connecticut': "CT",
+        'delaware': "DE",
+        'district-columbia': "DC",
+        'florida': "FL",
+        'georgia': "GA",
+        'hawaii': "HI",
+        'idaho': "ID",
+        'illinois': "IL",
+        'indiana': "IN",
+        'iowa': "IA",
+        'kansas': "KS",
+        'kentucky': "KY",
+        'louisiana': "LA",
+        'maine': "ME",
+        'maryland': "MD",
+        'massachusetts': "MA",
+        'michigan': "MI",
+        'minnesota': "MN",
+        'mississippi': "MS",
+        'missouri': "MO",
+        'montana': "MT",
+        'nebraska': "NE",
+        'nevada': "NV",
+        'new-hampshire': "NH",
+        'new-jersey': "NJ",
+        'new-mexico': "NM",
+        'new-york': "NY",
+        'north-carolina': "NC",
+        'north-dakota': "ND",
+        'ohio': "OH",
+        'oklahoma': "OK",
+        'oregon': "OR",
+        'pennsylvania': "PA",
+        'puerto-rico': "PR",
+        'rhode-island': "RI",
+        'south-carolina': "SC",
+        'south-dakota': "SD",
+        'tennessee': "TN",
+        'texas': "TX",
+        'utah': "UT",
+        'vermont': "VT",
+        'virginia': "VA",
+        'washington': "WA",
+        'west-virginia': "WV",
+        'wisconsin': "WI",
+        'wyoming': "WY"
+      }
+
+      let centerDist = radius + 5
+
+      const state2X = {
+        'alabama': stChartWidth / 2,
+        'alaska': stChartWidth / 2 - 14 * centerDist,
+        'arizona': stChartWidth / 2 - 9 * centerDist,
+        'arkansas': stChartWidth / 2 - 3 * centerDist,
+        'california': stChartWidth / 2 - 11 * centerDist,
+        'colorado': stChartWidth / 2 - 8 * centerDist,
+        'connecticut': stChartWidth / 2 + 7 * centerDist,
+        'delaware': stChartWidth / 2 + 4 * centerDist,
+        'district-columbia': stChartWidth / 2 + 7 * centerDist,
+        'florida': stChartWidth / 2 + 2 * centerDist,
+        'georgia': stChartWidth / 2 + centerDist,
+        'hawaii': stChartWidth / 2 - 14 * centerDist,
+        'idaho': stChartWidth / 2 - 11 * centerDist,
+        'illinois': stChartWidth / 2 - 3 * centerDist,
+        'indiana': stChartWidth / 2 - 1 * centerDist,
+        'iowa': stChartWidth / 2 - 5 * centerDist,
+        'kansas': stChartWidth / 2 - 5 * centerDist,
+        'kentucky': stChartWidth / 2 - 2 * centerDist,
+        'louisiana': stChartWidth / 2 - 4 * centerDist,
+        'maine': stChartWidth / 2 + 8 * centerDist,
+        'maryland': stChartWidth / 2 + 2 * centerDist,
+        'massachusetts': stChartWidth / 2 + 6 * centerDist,
+        'michigan': stChartWidth / 2,
+        'minnesota': stChartWidth / 2 - 6 * centerDist,
+        'mississippi': stChartWidth / 2 - 2 * centerDist,
+        'missouri': stChartWidth / 2 - 4 * centerDist,
+        'montana': stChartWidth / 2 - 10 * centerDist,
+        'nebraska': stChartWidth / 2 - 6 * centerDist,
+        'nevada': stChartWidth / 2 - 10 * centerDist,
+        'new-hampshire': stChartWidth / 2 + 7 * centerDist,
+        'new-jersey': stChartWidth / 2 + 5 * centerDist,
+        'new-mexico': stChartWidth / 2 - 8 * centerDist,
+        'new-york': stChartWidth / 2 + 4 * centerDist,
+        'north-carolina': stChartWidth / 2 + 3 * centerDist,
+        'north-dakota': stChartWidth / 2 - 8 * centerDist,
+        'ohio': stChartWidth / 2 + 1 * centerDist,
+        'oklahoma': stChartWidth / 2 - 6 * centerDist,
+        'oregon': stChartWidth / 2 - 12 * centerDist,
+        'pennsylvania': stChartWidth / 2 + 3 * centerDist,
+        'puerto-rico': stChartWidth / 2 + 8 * centerDist,
+        'rhode-island': stChartWidth / 2 + 8 * centerDist,
+        'south-carolina': stChartWidth / 2 + 2 * centerDist,
+        'south-dakota': stChartWidth / 2 - 7 * centerDist,
+        'tennessee': stChartWidth / 2 - 1 * centerDist,
+        'texas': stChartWidth / 2 - 7 * centerDist,
+        'utah': stChartWidth / 2 - 7 * centerDist,
+        'vermont': stChartWidth / 2 + 5 * centerDist,
+        'virginia': stChartWidth / 2 + 1 * centerDist,
+        'washington': stChartWidth / 2 - 12 * centerDist,
+        'west-virginia': stChartWidth / 2,
+        'wisconsin': stChartWidth / 2 - 4 * centerDist,
+        'wyoming': stChartWidth / 2 - 9 * centerDist
+      }
+
+      const state2Y = {
+        'alabama': stChartHeight / 2,
+        'alaska': stChartHeight / 2 - 12 * radius,
+        'arizona': stChartHeight / 2 - 2 * radius,
+        'arkansas': stChartHeight / 2 - 2 * radius,
+        'california': stChartHeight / 2 - 2 * radius,
+        'colorado': stChartHeight / 2 - 4 * radius,
+        'connecticut': stChartHeight / 2 - 6 * radius,
+        'delaware': stChartHeight / 2 - 4 * radius,
+        'district-columbia': stChartHeight / 2 - 2 * radius,
+        'florida': stChartHeight / 2 + 4 * radius,
+        'georgia': stChartHeight / 2 + 2 * radius,
+        'hawaii': stChartHeight / 2 + 4 * radius,
+        'idaho': stChartHeight / 2 - 6 * radius,
+        'illinois': stChartHeight / 2 - 6 * radius,
+        'indiana': stChartHeight / 2 - 6 * radius,
+        'iowa': stChartHeight / 2 - 6 * radius,
+        'kansas': stChartHeight / 2 - 2 * radius,
+        'kentucky': stChartHeight / 2 - 4 * radius,
+        'louisiana': stChartHeight / 2,
+        'maine': stChartHeight / 2 - 12 * radius,
+        'maryland': stChartHeight / 2 - 4 * radius,
+        'massachusetts': stChartHeight / 2 - 8 * radius,
+        'michigan': stChartHeight / 2 - 8 * radius,
+        'minnesota': stChartHeight / 2 - 8 * radius,
+        'mississippi': stChartHeight / 2,
+        'missouri': stChartHeight / 2 - 4 * radius,
+        'montana': stChartHeight / 2 - 8 * radius,
+        'nebraska': stChartHeight / 2 - 4 * radius,
+        'nevada': stChartHeight / 2 - 4 * radius,
+        'new-hampshire': stChartHeight / 2 - 10 * radius,
+        'new-jersey': stChartHeight / 2 - 6 * radius,
+        'new-mexico': stChartHeight / 2,
+        'new-york': stChartHeight / 2 - 8 * radius,
+        'north-carolina': stChartHeight / 2 - 2 * radius,
+        'north-dakota': stChartHeight / 2 - 8 * radius,
+        'ohio': stChartHeight / 2 - 6 * radius,
+        'oklahoma': stChartHeight / 2,
+        'oregon': stChartHeight / 2 - 4 * radius,
+        'pennsylvania': stChartHeight / 2 - 6 * radius,
+        'puerto-rico': stChartHeight / 2 + 4 * radius,
+        'rhode-island': stChartHeight / 2 - 8 * radius,
+        'south-carolina': stChartHeight / 2,
+        'south-dakota': stChartHeight / 2 - 6 * radius,
+        'tennessee': stChartHeight / 2 - 2 * radius,
+        'texas': stChartHeight / 2 + 2 * radius,
+        'utah': stChartHeight / 2 - 2 * radius,
+        'vermont': stChartHeight / 2 - 10 * radius,
+        'virginia': stChartHeight / 2 - 2 * radius,
+        'washington': stChartHeight / 2 - 8 * radius,
+        'west-virginia': stChartHeight / 2 - 4 * radius,
+        'wisconsin': stChartHeight / 2 - 8 * radius,
+        'wyoming': stChartHeight / 2 - 6 * radius
+      }
+
+
+      // Preprocessing Data
+      us_lang.forEach((d) => {
+        d["num_speakers"] = Number(d["num_speakers"])
+        d["low_eng_prof"] = Number(d["low_eng_prof"])
+        d["speaker_perc"] = Number(d["speaker_perc"])
+        d["low_prof_perc"] = Number(d["low_prof_perc"])
+
+        d["languages"] = d["languages"].replaceAll('.', '')
+        d["group_labels"] = d["group_labels"].replaceAll('.', '')
+        d["subgroup_labels"] = d["subgroup_labels"].replaceAll('.', '')
+
+        if (d["languages"] === "Speak only English at home") {
+          d["languages"] = "English"
+        }
+      })
+
+      states_lang.forEach((d) => {
+        d["num_speakers"] = Number(d["num_speakers"])
+        d["low_eng_prof"] = Number(d["low_eng_prof"])
+        d["speaker_perc"] = Number(d["speaker_perc"])
+        d["low_prof_perc"] = Number(d["low_prof_perc"])
+
+        d["languages"] = d["languages"].replaceAll('.', '')
+
+        if (d["languages"] === "Speak only English at home") {
+          d["languages"] = "English"
+        }
+
+        d["group_labels"] = d["group_labels"].replaceAll('.', '')
+        d["subgroup_labels"] = d["subgroup_labels"].replaceAll('.', '')
+      })
+
+      // need to filter out headers, group headers, and subgroup headers
+      function removeHeaders(d) {
+        return d["subgroup_labels"] !== "header" &&
+          d["subgroup_labels"] !== "group_header" &&
+          d["subgroup_labels"] !== "subgroup_header"
+      }
+
+      pureLangs = us_lang.filter((d) => {
+        return removeHeaders(d)
+      })
+
+      pureLangs = d3.sort(pureLangs, (a, b) =>
+        d3.descending(a["num_speakers"], b["num_speakers"]))
+
+      // Languages with over 500,000 speakers
+      mostCommonLangsUS = pureLangs.filter((d) => {
+        return d["num_speakers"] > 500000
+      })
+
+      mostCommonLangsUSNames = []
+      mostCommonLangsUSNums = []
+      mostCommonLangsUS.forEach((d) => {
+        mostCommonLangsUSNames.push(d["languages"])
+        mostCommonLangsUSNums.push(d["num_speakers"])
+      })
+
+      // Creating Ranked Language Dataset
+      rankedLanguages = null
+
+      for (let i = 0; i < Object.keys(state2Abb).length; i++) {
+        tmp = states_lang.filter((d) => {
+          return d["state"] === Object.keys(state2Abb)[i] && (removeHeaders(d) || d["languages"] === "English")
+        })
+
+        tmp = d3.sort(tmp, (a, b) =>
+          d3.descending(a["num_speakers"], b["num_speakers"]))
+
+        rankingLst = []
+        for (let j = 0; j < tmp.length; j++) {
+          rankingLst.push(j + 1)
+        }
+
+        idxCount = 0
+
+        tmp.forEach((d) => {
+          d["rank"] = rankingLst[idxCount]
+          idxCount += 1
+        })
+
+        if (rankedLanguages === null) {
+          rankedLanguages = tmp
+        } else {
+          rankedLanguages = d3.merge([rankedLanguages, tmp])
+        }
+      }
+      console.log("Ranked Language Data", rankedLanguages)
+
+      // Left and Right
+
+      // English
+      leftChart.append("circle")
+        .attr("cx", leftWidth / 2)
+        .attr("cy", 110)
+        .attr("fill", "#0072B2")
+        .attr("r", 100)
+
+      leftChart.append("text")
+        .text("hello")
+        .attr("x", leftWidth / 2)
+        .attr("y", 85)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // Chinese
+      leftChart.append("circle")
+        .attr("cx", leftWidth / 2 - 50)
+        .attr("cy", 310)
+        .attr("fill", "#CC79A7")
+        .attr("r", 100)
+
+      leftChart.append("text")
+        .text("nǐ hǎo")
+        .attr("x", leftWidth / 2 - 50)
+        .attr("y", 285)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // German 
+      leftChart.append("circle")
+        .attr("cx", leftWidth / 2 + 50)
+        .attr("cy", 500)
+        .attr("fill", "#009E73")
+        .attr("r", 100)
+
+      leftChart.append("text")
+        .text("hallo")
+        .attr("x", leftWidth / 2 + 50)
+        .attr("y", 475)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // Navajo 
+      leftChart.append("circle")
+        .attr("cx", leftWidth / 2)
+        .attr("cy", 700)
+        .attr("fill", "#D55E00")
+        .attr("r", 100)
+
+      leftChart.append("text")
+        .text("yá'át'ééh")
+        .attr("x", leftWidth / 2)
+        .attr("y", 675)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // Spanish
+      rightChart.append("circle")
+        .attr("cx", rightWidth / 2)
+        .attr("cy", 110)
+        .attr("fill", "#56B4E9")
+        .attr("r", 100)
+
+      rightChart.append("text")
+        .text("hola")
+        .attr("x", rightWidth / 2)
+        .attr("y", 85)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // Tagalog
+      rightChart.append("circle")
+        .attr("cx", rightWidth / 2 + 50)
+        .attr("cy", 310)
+        .attr("fill", "#CC79A7")
+        .attr("r", 100)
+
+      rightChart.append("text")
+        .text("kumusta")
+        .attr("x", rightWidth / 2 + 50)
+        .attr("y", 285)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // French 
+      rightChart.append("circle")
+        .attr("cx", rightWidth / 2 - 50)
+        .attr("cy", 500)
+        .attr("fill", "#009E73")
+        .attr("r", 100)
+
+      rightChart.append("text")
+        .text("bonjour")
+        .attr("x", rightWidth / 2 - 50)
+        .attr("y", 475)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // Hebrew
+      rightChart.append("circle")
+        .attr("cx", rightWidth / 2)
+        .attr("cy", 700)
+        .attr("fill", "#D55E00")
+        .attr("r", 100)
+
+      rightChart.append("text")
+        .text("shalom")
+        .attr("x", rightWidth / 2)
+        .attr("y", 675)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .style("fill", "white")
+        .style("font-size", "50px")
+
+      // ---------- Most Common Langs in US - Lollipop Chart ----------
+
+      let upAnnotations = upSvg.append("g").attr("id", "upAnnotations");
+
+      // Y Axis
+      let upYExtent = d3.extent(mostCommonLangsUS, (d) => d["num_speakers"]);
+
+      let upYScale = d3.scaleLinear()
+        .domain([0, 40000000])
+        .range([upChartHeight, 0])
+
+      let upLeftAxis = d3.axisLeft(upYScale).tickFormat(d3.format(".2s"));
+      let upLeftGridlines = d3.axisLeft(upYScale)
+        .tickSize(-upChartWidth + upMargin.left)
+        .tickFormat("");
+
+      upAnnotations.append("g")
+        .attr("class", "y axis")
+        .attr("transform",
+          `translate(${upMargin.left},${upMargin.top})`
+        )
+        .call(upLeftAxis)
+
+      upAnnotations.append("g")
+        .attr("class", "y gridlines")
+        .attr("transform",
+          `translate(${upMargin.left},${upMargin.top})`
+        )
+        .call(upLeftGridlines).lower()
+
+      upAnnotations.append("text")
+        .attr("class", "y-label")
+        .attr("transform", `translate(${upMargin.left / 2}, ${upChartHeight / 2}) rotate(-90)`)
+        .style("text-anchor", "middle")
+        .text("Number of Speakers")
+        .attr("fill", "black")
+        .style("font-family", "monospace")
+        .style("font-weight", "bold");
+
+      // X Axis
+      let upLangScale = d3.scaleBand()
+        .domain(mostCommonLangsUSNames)
+        .range([0, upChartWidth - upMargin.left]);
+
+      let upBottomAxis = d3.axisBottom(upLangScale);
+      let upBottomGridlines = d3.axisBottom(upLangScale)
+        .tickSize(-upChartHeight)
+        .tickFormat("");
+
+      upAnnotations.append("g")
+        .attr("class", "x axis")
+        .attr("transform",
+          `translate(${upMargin.left},${upChartHeight + upMargin.top})`
+        )
+        .call(upBottomAxis)
+        .selectAll("text")
+        .attr("transform", `translate(${0}, ${10}) rotate(-20)`)
+
+      upChart.selectAll("line")
+        .data(mostCommonLangsUS)
+        .join("line")
+        .attr("class", "line")
+        .attr("x1", d => upLangScale(d["languages"]) + (upLangScale.bandwidth() / 2))
+        .attr("x2", d => upLangScale(d["languages"]) + (upLangScale.bandwidth() / 2))
+        .attr("y1", d => upYScale(0))
+        .attr("y2", d => upYScale(d["num_speakers"]))
+        .attr("stroke", "grey")
+        .attr("stroke-width", 3)
+
+      upChart.selectAll("circle")
+        .data(mostCommonLangsUS)
+        .join("circle")
+        .attr("class", "point")
+        .attr("r", 10)
+        .attr("cx", d => upLangScale(d["languages"]) + (upLangScale.bandwidth() / 2))
+        .attr("cy", d => upYScale(d["num_speakers"]))
+        .attr("fill", d => upGrpCircleColors(d))
+        .attr("stroke", "black")
+        .attr("stoke-width", 1)
+
+
+      upChart.append("rect")
+        .attr("x", upChartWidth / 2 - 15)
+        .attr("y", 5)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#56B4E9");
+
+      upChart.append("text")
+        .text("Spanish and Spanish Creole")
+        .attr("x", upChartWidth / 2 + boxWidth - 10)
+        .attr("y", 5 + boxHeight / 2 + 5);
+
+      upChart.append("rect")
+        .attr("x", upChartWidth / 2 - 15)
+        .attr("y", 5 + boxHeight + 10)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#009E73");
+
+      upChart.append("text")
+        .text("Other Indo-European")
+        .attr("x", upChartWidth / 2 + boxWidth - 10)
+        .attr("y", 15 + boxHeight + boxHeight / 2 + 5);
+
+      upChart.append("rect")
+        .attr("x", upChartWidth / 2 - 15)
+        .attr("y", 5 + 2 * boxHeight + 20)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#CC79A7");
+
+      upChart.append("text")
+        .text("Asian and Pacific Islander")
+        .attr("x", upChartWidth / 2 + boxWidth - 10)
+        .attr("y", 25 + 2 * boxHeight + boxHeight / 2 + 5);
+
+      upChart.append("rect")
+        .attr("x", upChartWidth / 2 - 15)
+        .attr("y", 5 + 3 * boxHeight + 30)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#D55E00");
+
+      upChart.append("text")
+        .text("All Others")
+        .attr("x", upChartWidth / 2 + boxWidth - 10)
+        .attr("y", 35 + 3 * boxHeight + boxHeight / 2 + 5);
+
+
+
+      upChart.raise()
+
+      function upGrpCircleColors(d) {
+        // Spanish
+        if (d["group_labels"] === "SPANISH AND SPANISH CREOLE") {
+          return "#56B4E9"
+        }
+        // Indo-European
+        if (d["group_labels"] === "OTHER INDO-EUROPEAN LANGUAGES") {
+          return "#009E73"
+        }
+        // Asian and Pacific Island
+        if (d["group_labels"] === "ASIAN AND PACIFIC ISLAND LANGUAGES") {
+          return "#CC79A7"
+        }
+        if (d["languages"] === "English") {
+          return "#0072B2"
+        }
+        // ALL OTHER LANGUAGES
+        return "#D55E00"
+      }
+
+      var langSet = new Set();
+      var st2langMap = new Map();
+
+      // ---------- Most Common Languages by State - Map ----------
+      function updateStCommon() {
+        d3.selectAll("circle.remove").remove()
+        d3.selectAll("text.remove").remove()
+
+        langSet = new Set();
+        st2langMap = new Map();
+
+        for (let i = 0; i < Object.keys(state2Abb).length; i++) {
+
+          let clusterData = states_lang.filter((d) => {
+            return d["state"] === Object.keys(state2Abb)[i] && (removeHeaders(d) || d["languages"] === "English")
+          })
+
+          clusterData = d3.sort(clusterData, (a, b) =>
+            d3.descending(a["num_speakers"], b["num_speakers"]))
+
+          var tooBig = clusterData.length < rank
+
+          if (!tooBig) {
+            var row = clusterData[rank - 1]
+            langSet.add(row["languages"])
+            st2langMap.set(row["state"], row["languages"])
+
+          }
+
+          let xShift = 75
+
+          stChart.append("circle")
+            .style("stroke", d => {
+              if (selectedState === state2Abb[Object.keys(state2Abb)[i]]) { return "black" } else { return "" }
+            })
+            .attr("stroke-width", 3)
+            .attr("cx", state2X[Object.keys(state2X)[i]] + xShift)
+            .attr("cy", state2Y[Object.keys(state2Y)[i]])
+            .attr("r", radius)
+            .attr("id", state2Abb[Object.keys(state2Abb)[i]])
+            .on("mouseover", clusterMouseOver)
+            .on("mouseout", clusterMouseOut)
+            .on("click", clusterMouseChange)
+            .attr("class", "interactable remove")
+            .style("fill", d => { if (tooBig) { return "grey" } else { return upGrpCircleColors(row) } })
+
+          stChart.append("text")
+            .text(state2Abb[Object.keys(state2Abb)[i]])
+            .attr("x", state2X[Object.keys(state2X)[i]] + xShift)
+            .attr("y", state2Y[Object.keys(state2Y)[i]] - 5)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("fill", d => "white")
+            .attr("id", state2Abb[Object.keys(state2Abb)[i]] + "-text")
+            .on("mouseover", clusterMouseOver)
+            .on("mouseout", clusterMouseOut)
+            .on("click", clusterMouseChange)
+            .attr("class", "interactable remove")
+
+
+        }
+      }
+      updateStCommon()
+
+      function clusterMouseOver() {
+        toolTip.style("visibility", "visible");
+
+        name = this.id
+        if (name.includes("-text")) {
+          name = this.id.split("-")[0]
+        }
+
+        let key = Object.keys(state2Abb).find(k => state2Abb[k] === name);
+
+        keyNice = key.replace("-", " ")
+        stateText.text(keyNice.toUpperCase())
+
+        langText.text(st2langMap.get(key))
+
+
+        if (selectedState !== name) {
+          d3.select("#" + name)
+            .style("stroke", "#F0E442")
+        }
+      }
+
+      function clusterMouseOut() {
+        toolTip.style("visibility", "hidden");
+
+        let name = this.id
+        if (this.id.includes("-text")) {
+          name = this.id.split("-")[0]
+        }
+
+        if (selectedState !== name) {
+          d3.select("#" + name)
+            .style("stroke", "")
+        }
+      }
+
+      function clusterMouseChange() {
+        let name = this.id
+        if (this.id.includes("-text")) {
+          name = this.id.split("-")[0]
+        }
+        let currState = d3.select("#" + name)
+
+        let key = Object.keys(state2Abb).find(k => state2Abb[k] === name);
+
+        d3.selectAll("text.removeDetails").remove()
+        d3.selectAll("rect.removeDetails").remove()
+        d3.selectAll("g.removeDetails").remove()
+        d3.selectAll("line.removeDetails").remove()
+        d3.selectAll("circle.removeDetails").remove()
+
+
+
+        if (selectedState !== name) {
+          d3.select("#" + selectedState)
+            .style("stroke", "")
+
+          currState.style("stroke", "black")
+
+          selectedState = name
+
+          d3.select("#lang4St")
+            .text("Select a language and a state to see how many speakers there are in that state.")
+
+          updateStDetails()
+
+        } else {
+          selectedState = null
+          currState.style("stroke", "#F0E442")
+
+          d3.select("#comboStLang")
+            .text("Click on a state to see how many speakers there are for the " + rank + niceRank(rank) + " most common language.")
+
+          d3.select("#lang4St")
+            .text("Select a language and a state to see how many speakers there are in that state.")
+
+          d3.select("#numLangs")
+            .text("Click on a state to see the number of langauges spoken.")
+
+          d3.select("#propText")
+            .text("Click on a state to see the percentage of English, Spanish, and every other language spoken.")
+
+          d3.select("#topTenText")
+            .text("Click on a state to see the top ten languages spoken besides English and Spanish.")
+
+          updateStDetails()
+        }
+        updateStatePlusLangText()
+
+
+      }
+
+      function updateStDetails() {
+        let selectedData = states_lang.filter((d) => {
+          return d["abbr"] === selectedState //&& (removeHeaders(d) || d["languages"] === "English")
+        })
+
+        if (selectedData.length !== 0) {
+
+          let numLangs = selectedData.filter((d) => {
+            return removeHeaders(d)
+          }).length
+
+          let currentRankData = selectedData.filter((d) => {
+            return d["rank"] === rank
+          })
+
+          let stateAtTime = Object.keys(state2Abb).find(k => state2Abb[k] === selectedState)
+          stateAtTime = stateAtTime.replace("-", " ").toUpperCase()
+          if (stateAtTime == "DISTRICT COLUMBIA") {
+            stateAtTime = "DISTRICT OF COLUMBIA"
+          }
+
+          d3.select("#numLangs")
+            .text("There are " + numLangs + " languages spoken in " + stateAtTime.toUpperCase() + ".")
+
+          comboStLangText = stateAtTime.toUpperCase()
+          if (currentRankData.length === 0) {
+            comboStLangText = comboStLangText + " does not have a " + rank + niceRank(rank) + " most common language in the state."
+          } else {
+            let cntSpeakers = currentRankData[0]["num_speakers"]
+            let langAtTime = currentRankData[0]["languages"]
+
+            comboStLangText = comboStLangText + " has "
+            if (cntSpeakers === -1) {
+              comboStLangText = comboStLangText + "an undisclosed number of speakers of " + langAtTime
+            } else {
+              comboStLangText = comboStLangText + commaFormat(cntSpeakers) + " speakers of " + langAtTime
+            }
+            comboStLangText = comboStLangText + ", making it the " + rank + niceRank(rank) + " most common language in the state."
+          }
+          d3.select("#comboStLang")
+            .text(comboStLangText)
+
+          console.log("Selected Data", selectedData)
+
+          let popDetails = selectedData.filter((d) => {
+            return d["languages"] === "Population 5 years and over"
+          })
+          let totalPop = popDetails[0]["num_speakers"]
+
+          let engDetails = selectedData.filter((d) => {
+            return d["languages"] === "English"
+          })
+          let engCount = engDetails[0]["num_speakers"]
+
+          let spanDetails = selectedData.filter((d) => {
+            return d["languages"] === "Spanish"
+          })
+          let spanCount = spanDetails[0]["num_speakers"]
+
+          let engPerc = percentFormat(engCount / totalPop * 100)
+          let spanPerc = percentFormat(spanCount / totalPop * 100)
+          let otherPerc = percentFormat(100 - engPerc - spanPerc)
+
+          let propTxt1 = "In " + stateAtTime.toUpperCase() + ", " + engPerc + "% speak English and " + spanPerc + "% speak Spanish."
+          let propTxt2 = " All other languages account for " + otherPerc + "% of speakers in this state."
+
+          d3.select("#propText")
+            .text(propTxt1 + propTxt2)
+
+          let stateTopTen = rankedLanguages.filter((d) => {
+            return d["abbr"] === selectedState && d["languages"] != "English" && d["languages"] != "Spanish" && removeHeaders(d)
+          })
+
+          let topTenTxt = "The top ten languages of this state (besides English and Spanish) are:"
+
+          topTenArr = []
+          langNames = []
+
+          for (let i = 0; i < 10; i++) {
+            if (i != 9) {
+              topTenTxt = topTenTxt + " " + stateTopTen[i]["languages"] + ","
+            } else {
+              topTenTxt = topTenTxt + " and " + stateTopTen[i]["languages"] + "."
+            }
+            topTenArr.push(stateTopTen[i])
+            langNames.push(stateTopTen[i]["languages"])
+          }
+
+          d3.select("#topTenText")
+            .text(topTenTxt)
+
+          // --- Proportional Bar Chart ---
+          let propScale = d3.scaleLinear()
+            .domain([0, totalPop])
+            .range([0, 500])
+
+          let propWidth = propScale(totalPop)
+          let engWidth = propScale(engCount)
+          let spanWidth = propScale(spanCount)
+          let otherPropWidth = propWidth - engWidth - spanWidth
+
+          barHeight = 50
+
+          detailChart.append("rect")
+            .attr("x", 125)
+            .attr("y", 125)
+            .attr("width", engWidth)
+            .attr("height", barHeight)
+            .attr("fill", upGrpCircleColors(engDetails[0]))
+            .attr("class", "removeDetails")
+
+          detailChart.append("text")
+            .text("English " + "(" + engPerc + "%)")
+            .attr("x", detailChartWidth / 4)
+            .attr("y", 200)
+            .attr("fill", upGrpCircleColors(engDetails[0]))
+            .attr("class", "larger removeDetails")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("font-weight", "bold");
+
+          detailChart.append("rect")
+            .attr("x", 125 + engWidth)
+            .attr("y", 125)
+            .attr("width", spanWidth)
+            .attr("height", barHeight)
+            .attr("fill", upGrpCircleColors(spanDetails[0]))
+            .attr("class", "removeDetails")
+
+          detailChart.append("text")
+            .text("Spanish " + "(" + spanPerc + "%)")
+            .attr("x", 2 * detailChartWidth / 4)
+            .attr("y", 200)
+            .attr("fill", upGrpCircleColors(spanDetails[0]))
+            .attr("class", "larger removeDetails")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("font-weight", "bold");
+
+          detailChart.append("rect")
+            .attr("x", 125 + engWidth + spanWidth)
+            .attr("y", 125)
+            .attr("width", otherPropWidth)
+            .attr("height", barHeight)
+            .attr("fill", "maroon")
+            .attr("class", "removeDetails")
+
+          detailChart.append("text")
+            .text("Everything Else " + "(" + otherPerc + "%)")
+            .attr("x", 3 * detailChartWidth / 4)
+            .attr("y", 200)
+            .attr("fill", "maroon")
+            .attr("class", "larger removeDetails")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("font-weight", "bold");
+
+          detailChart.append("text")
+            .text("Proportions of Languages Spoken")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .attr("x", detailChartWidth / 2)
+            .attr("y", detailMargin.top + detailMargin.bottom + 75)
+            .attr("class", "larger removeDetails")
+            .style("font-weight", "bold");
+
+          // --- Lollipop Chart ---
+          let detailAnnotations = detailSvg.append("g").attr("id", "detailAnnotations");
+
+          speakerXExtent = d3.extent(topTenArr, (d) => d["num_speakers"])
+
+          speakerXScale = d3.scaleLinear()
+            .domain([0, speakerXExtent[1]])
+            .range([0, 400])
+
+          let topAxis = d3.axisTop(speakerXScale).tickFormat(d3.format(".2s"));
+
+          let topGridlines = d3.axisTop(speakerXScale)
+            .tickSize(-detailChartWidth / 2 + 100)
+            .tickFormat("");
+
+          detailAnnotations.append("g")
+            .attr("class", "x axis removeDetails")
+            .attr("transform",
+              `translate(${detailChartWidth / 4},${300})`
+            )
+            .call(topAxis)
+
+          detailAnnotations.append("g")
+            .attr("class", "x gridlines removeDetails")
+            .attr("transform",
+              `translate(${detailChartWidth / 4},${300})`
+            )
+            .lower()
+            .call(topGridlines);
+
+          let langScale = d3.scaleBand()
+            .domain(langNames)
+            .range([0, 265])
+
+          let leftAxis = d3.axisLeft(langScale);
+
+          detailAnnotations.append("g")
+            .attr("class", "y axis removeDetails")
+            .attr("transform",
+              `translate(${detailChartWidth / 4},${300})`
+            )
+            .call(leftAxis)
+
+          for (let i = 0; i < 10; i++) {
+            detailAnnotations.append("line")
+              .attr("y1", d => langScale(topTenArr[i]["languages"]) + (langScale.bandwidth() / 2) + 300)
+              .attr("y2", d => langScale(topTenArr[i]["languages"]) + (langScale.bandwidth() / 2) + 300)
+              .attr("x1", d => 0 + detailChartWidth / 4)
+              .attr("x2", d => speakerXScale(topTenArr[i]["num_speakers"]) + detailChartWidth / 4)
+              .attr("stroke", "grey")
+              .attr("stroke-width", 3)
+              .attr("class", "line removeDetails")
+          }
+
+          detailAnnotations.selectAll("circle")
+            .data(topTenArr)
+            .join("circle")
+            .attr("class", "point removeDetails")
+            .attr("r", 10)
+            .attr("cy", d => 300 + langScale(d["languages"]) + (langScale.bandwidth() / 2))
+            .attr("cx", d => detailChartWidth / 4 + speakerXScale(d["num_speakers"]))
+            .attr("fill", d => upGrpCircleColors(d))
+            .attr("stroke", "black")
+            .attr("stoke-width", 1)
+
+
+          // Title of Details
+          detailChart.append("text")
+            .text("Top Ten Languages - Number of Speakers")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .attr("x", detailChartWidth / 2)
+            .attr("y", detailChartHeight / 2 - 50)
+            .attr("class", "larger removeDetails")
+            .style("font-weight", "bold");
+
+
+          detailChart.append("text")
+            .text(stateAtTime)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .attr("x", detailChartWidth / 2)
+            .attr("y", detailMargin.top)
+            .attr("class", "larger removeDetails")
+            .style("font-size", 50)
+            .style("font-weight", "bold");
+        } else {
+          detailChart.append("text")
+            .text("select a state to view details")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .attr("x", detailChartWidth / 2)
+            .attr("y", detailChartHeight / 2 - 30)
+            .attr("class", "larger removeDetails")
+            .style("font-size", 50)
+            .style("font-weight", "bold");
+        }
+      }
+      updateStDetails()
+
+      // ----- Tooltip -----
+
+      let toolTipWidth = 200
+      let toolTipHeight = 75
+
+      let xPos = stChartWidth / 2 - toolTipWidth / 2
+      let yPos = stMargin.top
+
+      let toolTip = stChart.append("g")
+        .attr("class", "tooltip")
+        .attr("visibility", "hidden");
+
+      toolTip.append("rect")
+        .attr("fill", "black")
+        .attr("opacity", .8)
+        .attr("rx", 6)
+        .attr("ry", 6)
+        .attr("x", xPos)
+        .attr("y", yPos)
+        .attr("width", toolTipWidth)
+        .attr("height", toolTipHeight);
+
+      let stateText = toolTip.append("text")
+        .attr("fill", "white")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .attr("x", xPos + (toolTipWidth / 2))
+        .attr("y", yPos + 10)
+        .attr("class", "larger")
+        .style("font-weight", "bold");
+
+      let langText = toolTip.append("text")
+        .attr("fill", "white")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .attr("x", xPos + (toolTipWidth / 2))
+        .attr("y", yPos + 30)
+        .attr("class", "larger")
+        .style("font-weight", "bold");
+
+      // ----- Legend ------
+
+      // English
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right)
+        .attr("y", stChartHeight - 100)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#0072B2");
+
+      stChart.append("text")
+        .text("English")
+        .attr("x", stMargin.left + stMargin.right + boxWidth + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 5);
+
+      // Spanish and Spanish Creole
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right + 150)
+        .attr("y", stChartHeight - 100)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#56B4E9");
+
+      stChart.append("text")
+        .text("Spanish and Spanish Creole")
+        .attr("x", stMargin.left + stMargin.right + 150 + boxWidth + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 5);
+
+      // Other Indo-European
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right + 450)
+        .attr("y", stChartHeight - 100)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#009E73");
+
+      stChart.append("text")
+        .text("Other Indo-European")
+        .attr("x", stMargin.left + stMargin.right + 450 + boxWidth + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 5);
+
+      // Asian and Pacific Islander
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right + 100)
+        .attr("y", stChartHeight - 100 + 50)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#CC79A7");
+
+      stChart.append("text")
+        .text("Asian and Pacific Islander")
+        .attr("x", stMargin.left + stMargin.right + boxWidth + 100 + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 55);
+
+      // All Others
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right + 400)
+        .attr("y", stChartHeight - 100 + 50)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "#D55E00");
+
+      stChart.append("text")
+        .text("All Others")
+        .attr("x", stMargin.left + stMargin.right + boxWidth + 400 + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 55);
+
+      // NA
+      stChart.append("rect")
+        .attr("x", stMargin.left + stMargin.right + 550)
+        .attr("y", stChartHeight - 100 + 50)
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("stroke", "black")
+        .style("fill", "grey");
+
+      stChart.append("text")
+        .text("NA")
+        .attr("x", stMargin.left + stMargin.right + boxWidth + 550 + 5)
+        .attr("y", stChartHeight - 100 + boxHeight / 2 + 55);
+
+
+      // ----- Ranking Functionality -----
+      function niceRank(rankNum) {
+        suffix = "th"
+        if (rankNum !== 11 && rankNum % 10 === 1) {
+          suffix = "st"
+        }
+        if (rankNum % 10 === 2) {
+          suffix = "nd"
+        }
+        if (rankNum % 10 === 3) {
+          suffix = "rd"
+        }
+        return suffix
+      }
+
+      numberInput = d3.select("#numberInput")
+        .on("input", function () {
+          val = Number(d3.select(this).property("value"))
+          min = Number(d3.select(this).property("min"))
+          if (val < min) {
+            val = min
+          }
+          max = Number(d3.select(this).property("max"))
+          if (val > max) {
+            val = max
+          }
+
+          suffix = niceRank(val)
+
+          d3.select("#numCommon")
+            .text("The " + String(val) + suffix + " Most Common Language by State")
+
+          rank = val
+          updateStCommon()
+
+          showSelected(true)
+
+          if (selectedState == undefined) {
+            d3.select("#comboStLang")
+              .text("Click on a state to see how many speakers there are for the " + rank + niceRank(rank) + " most common language.")
+          }
+
+
+        })
+
+      //  ----- Dropdown Functionality -----
+      stLangSelected = null
+
+      function showSelected(rankChange) {
+        // val is the language from the dropdown selection
+        let val = d3.select(this).property('value')
+
+        if (val != undefined) {
+          if (val != stLangSelected) {
+            let langFilterData = rankedLanguages.filter((d) => {
+              return d["languages"] === val && d["rank"] === rank
+            })
+            for (let i = 0; i < langFilterData.length; i++) {
+              row = langFilterData[i]
+              color = upGrpCircleColors(row)
+              ident = row["abbr"]
+
+              d3.select("#" + ident).style("fill", "#414a4c")
+              d3.select("#" + ident + "-text").style("fill", color)
+
+            }
+
+            let refreshFilterData = rankedLanguages.filter((d) => {
+              return d["languages"] === stLangSelected && d["rank"] === rank
+            })
+
+            for (let i = 0; i < refreshFilterData.length; i++) {
+              row = refreshFilterData[i]
+              color = upGrpCircleColors(row)
+              ident = row["abbr"]
+
+              d3.select("#" + ident).style("fill", color)
+              d3.select("#" + ident + "-text").style("fill", "white")
+
+            }
+            langStTrackerText = "There are " + langFilterData.length + " states that have "
+            if (langFilterData.length === 1) {
+              langStTrackerText = "There is " + langFilterData.length + " state that has "
+            }
+            langStTrackerText = langStTrackerText + val + " as their " + rank + niceRank(rank) + " most common language"
+
+            d3.select("#langStTracker")
+              .text(langStTrackerText)
+          }
+          // Track the language selected
+          stLangSelected = val
+
+
+        } else {
+          if (rankChange) {
+            let langFilterData = rankedLanguages.filter((d) => {
+              return d["languages"] === stLangSelected && d["rank"] === rank
+            })
+            for (let i = 0; i < langFilterData.length; i++) {
+              row = langFilterData[i]
+              color = upGrpCircleColors(row)
+              ident = row["abbr"]
+
+              d3.select("#" + ident).style("fill", "#414a4c")
+              d3.select("#" + ident + "-text").style("fill", color)
+
+            }
+            langStTrackerText = "There are " + langFilterData.length + " states that have "
+            if (langFilterData.length === 1) {
+              langStTrackerText = "There is " + langFilterData.length + " state that has "
+            }
+            langStTrackerText = langStTrackerText + stLangSelected + " as their " + rank + niceRank(rank) + " most common language"
+
+            d3.select("#langStTracker")
+              .text(langStTrackerText)
+
+            updateStDetails()
+          }
+        }
+
+        if (stLangSelected === null || stLangSelected.length === 0) {
+          d3.select("#langStTracker")
+            .text("No language selected...")
+
+          d3.select("#lang4St")
+            .text("Select a language and a state to see how many speakers there are in that state.")
+        } else {
+          updateStatePlusLangText()
+        }
+
+
+      }
+
+      function updateStatePlusLangText() {
+        if (selectedState !== null && stLangSelected !== null) {
+          let rowData = states_lang.filter((d) => {
+            return d["abbr"] === selectedState && d["languages"] === stLangSelected
+          })
+
+          let key = Object.keys(state2Abb).find(k => state2Abb[k] === selectedState);
+          keyNice = key.replace("-", " ").toUpperCase()
+          if (keyNice == "DISTRICT COLUMBIA") {
+            keyNice = "DISTRICT OF COLUMBIA"
+          }
+
+          let statePlusLangText = ""
+          if (rowData.length === 0) {
+            statePlusLangText = keyNice + " does not have any known speakers of " + stLangSelected + "."
+            if (stLangSelected == "") {
+              statePlusLangText = "Select a language and a state to see how many speakers there are in that state."
+            }
+          } else {
+            let cntSpeakers = rowData[0]["num_speakers"]
+            let langAtSt = rowData[0]["languages"]
+            let rank4Lang = rowData[0]["rank"]
+
+            if (cntSpeakers === -1) {
+              statePlusLangText = keyNice + " has an undisclosed number of speakers of " + langAtSt
+            } else {
+              statePlusLangText = keyNice + " has " + commaFormat(cntSpeakers) + " speakers of " + langAtSt
+            }
+            statePlusLangText = statePlusLangText + ", making it the " + rank4Lang + niceRank(rank4Lang) + " most common language in the state."
+          }
+
+
+          d3.select("#lang4St")
+            .text(statePlusLangText)
+        }
+      }
+
+      // -- Language Dropdown for State Map --
+      let spanishRanked = rankedLanguages.filter((d) => {
+        return d["group_labels"] === "SPANISH AND SPANISH CREOLE"
+      })
+      let spanishSet = new Set()
+      for (let i = 0; i < spanishRanked.length; i++) {
+        spanishSet.add(spanishRanked[i]["languages"])
+      }
+
+      let indoRanked = rankedLanguages.filter((d) => {
+        return d["group_labels"] === "OTHER INDO-EUROPEAN LANGUAGES"
+      })
+      let indoSet = new Set()
+      for (let i = 0; i < indoRanked.length; i++) {
+        indoSet.add(indoRanked[i]["languages"])
+      }
+
+      let asianRanked = rankedLanguages.filter((d) => {
+        return d["group_labels"] === "ASIAN AND PACIFIC ISLAND LANGUAGES"
+      })
+      let asianSet = new Set()
+      for (let i = 0; i < asianRanked.length; i++) {
+        asianSet.add(asianRanked[i]["languages"])
+      }
+
+      let otherRanked = rankedLanguages.filter((d) => {
+        return d["group_labels"] === "ALL OTHER LANGUAGES"
+      })
+      let otherSet = new Set()
+      for (let i = 0; i < otherRanked.length; i++) {
+        otherSet.add(otherRanked[i]["languages"])
+      }
+
+      let stDrop = d3.select("#filterSt");
+
+      stDrop.append("optgroup")
+        .attr("label", "Spanish and Spanish Creole")
+        .selectAll(".stOption")
+        .data(spanishSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      stDrop.append("optgroup")
+        .attr("label", "Other Indo-European Languages")
+        .selectAll(".stOption")
+        .data(indoSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      stDrop.append("optgroup")
+        .attr("label", "Asian and Pacific Island Languages")
+        .selectAll(".stOption")
+        .data(asianSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      stDrop.append("optgroup")
+        .attr("label", "All Other Languages")
+        .selectAll(".stOption")
+        .data(otherSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      stDrop.on("change", showSelected)
+
+      // ---------- Language Distribution by State - Map ----------
+      let spanishScheme = ["#9ad2f2", "#6dbeec", "#3faae6", "#1c93d7"]
+      let indoScheme = ["#00ebab", "#00b886", "#008560", "#00523b"]
+      let asianScheme = ["#e1b0cb", "#d38bb3", "#c5679b", "#b44582"]
+      let otherScheme = ["#ff8423", "#ef6900", "#bc5300", "#893c00"]
+
+      function selectScheme(d) {
+        // Spanish
+        if (d["group_labels"] === "SPANISH AND SPANISH CREOLE") {
+          return spanishScheme
+        }
+        // Indo-European
+        if (d["group_labels"] === "OTHER INDO-EUROPEAN LANGUAGES") {
+          return indoScheme
+        }
+        // Asian and Pacific Island
+        if (d["group_labels"] === "ASIAN AND PACIFIC ISLAND LANGUAGES") {
+          return asianScheme
+        }
+        if (d["languages"] === "English") {
+          return "ERROR"
+        }
+        // ALL OTHER LANGUAGES
+        return otherScheme
+      }
+
+
+      // --- DropDown for the Language Distribution
+      let distDrop = d3.select("#filterDist");
+
+      distDrop.append("optgroup")
+        .attr("label", "Spanish and Spanish Creole")
+        .selectAll(".stOption")
+        .data(spanishSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      distDrop.append("optgroup")
+        .attr("label", "Other Indo-European Languages")
+        .selectAll(".stOption")
+        .data(indoSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      distDrop.append("optgroup")
+        .attr("label", "Asian and Pacific Island Languages")
+        .selectAll(".stOption")
+        .data(asianSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      distDrop.append("optgroup")
+        .attr("label", "All Other Languages")
+        .selectAll(".stOption")
+        .data(otherSet)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .attr("class", "stOption")
+
+      distDrop.on("change", updateLang)
+
+
+      // ----- Language Distribution Map -----
+
+      var selectedLangDist = "Spanish"
+
+      function updateLang() {
+        let val = d3.select(this).property('value')
+        selectedLangDist = val
+        updateDistMap()
+      }
+
+
+      function updateDistMap() {
+        d3.selectAll("circle.distRemove").remove()
+        d3.selectAll("text.distRemove").remove()
+        d3.selectAll("rect.distRemove").remove()
+        d3.selectAll("g.distRemove").remove()
+
+        let totalSpeakersRow = pureLangs.filter((d) => {
+          return d["languages"] === selectedLangDist
+        })
+
+        console.log(totalSpeakersRow)
+        let totalSpeakers = totalSpeakersRow[0]["num_speakers"]
+        let totalPerc = totalSpeakersRow[0]["speaker_perc"]
+
+
+
+        let langCluster = states_lang.filter((d) => {
+          return d["languages"] === selectedLangDist
+        })
+
+        let useScheme = selectScheme(langCluster[0])
+
+        let colorExtent = d3.extent(langCluster, (d) => d["num_speakers"]);
+
+        let percExtent = d3.extent(langCluster, (d) => d["speaker_perc"])
+
+        var colorScale = d3.scaleQuantile()
+          .domain([0, colorExtent[1]])
+          .range(useScheme);
+
+        let isHidden = colorExtent[1] == -1
+
+        var maxState = null
+        var maxPercState = null
+        var maxPercCount = null
+
+        for (let i = 0; i < Object.keys(state2Abb).length; i++) {
+          let clusterData = langCluster.filter((d) => {
+            return d["state"] === Object.keys(state2Abb)[i]
+          })
+
+          let isNA = clusterData.length == 0
+
+          if (!isNA && clusterData[0]["num_speakers"] == colorExtent[1]) {
+            maxState = Object.keys(state2Abb)[i].replace("-", " ").toUpperCase()
+          }
+          if (!isNA && clusterData[0]["speaker_perc"] == percExtent[1]) {
+            maxPercState = Object.keys(state2Abb)[i].replace("-", " ").toUpperCase()
+            maxPercCount = clusterData[0]["num_speakers"]
+          }
+
+          let xShift = 70
+
+          distChart.append("circle")
+            .attr("cx", state2X[Object.keys(state2X)[i]] + xShift)
+            .attr("cy", state2Y[Object.keys(state2Y)[i]])
+            .attr("r", radius)
+            .attr("id", state2Abb[Object.keys(state2Abb)[i]] + "-dist")
+            .style("fill", d => {
+              if (isNA) { return "grey" }
+              else { if (clusterData[0]["num_speakers"] == -1) { return "black" } else { return colorScale(clusterData[0]["num_speakers"]) } }
+            })
+            .attr("class", "distRemove interactable")
+            .on("mouseover", distMouseOver)
+            .on("mouseout", distMouseOut)
+
+          distChart.append("text")
+            .text(state2Abb[Object.keys(state2Abb)[i]])
+            .attr("x", state2X[Object.keys(state2X)[i]] + xShift)
+            .attr("y", state2Y[Object.keys(state2Y)[i]] - 5)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("fill", d => "white")
+            .attr("id", state2Abb[Object.keys(state2Abb)[i]] + "-text-dist")
+            .attr("class", "distRemove interactable")
+            .on("mouseover", distMouseOver)
+            .on("mouseout", distMouseOut)
+        }
+
+
+        // langTotal
+        langTotalTxt = "There are "
+        if (totalSpeakers == -1) {
+          langTotalTxt = langTotalTxt + "an undisclosed number of " + selectedLangDist + " speakers in the US."
+        } else {
+          langTotalTxt = langTotalTxt + commaFormat(totalSpeakers) + " speakers of " + selectedLangDist + " in the US"
+          if (totalPerc != -1) {
+            langTotalTxt = langTotalTxt + ", which is about " + percentFormat(totalPerc * 100) + "% of the population"
+          }
+          langTotalTxt = langTotalTxt + "."
+        }
+        d3.select("#langTotal")
+          .text(langTotalTxt)
+
+        // langMost
+        langMostTxt = maxState + " has the most "
+        if (isHidden) {
+          langMostTxt = langMostTxt + "with an undisclosed number of " + selectedLangDist + " speakers."
+        } else {
+          langMostTxt = langMostTxt + selectedLangDist + " speakers with " + commaFormat(colorExtent[1]) + "."
+        }
+        d3.select("#langMost")
+          .text(langMostTxt)
+
+        // langPercentage
+        langPercentageText = maxPercState + " has the largest percentage of " + selectedLangDist + " speakers with "
+        if (percExtent[1] == -1) {
+          langPercentageText = langPercentageText + "an undisclosed number."
+        } else {
+          langPercentageText = langPercentageText + percentFormat(percExtent[1] * 100) + "% of the state population (" + commaFormat(maxPercCount) + " speakers)."
+        }
+
+        d3.select("#langPercentage")
+          .text(langPercentageText)
+
+        let distBtw = 50
+
+        distChart.append("rect")
+          .attr("x", distChartWidth - distChartWidth / 3)
+          .attr("y", distChartHeight - distChartHeight / 4 + 25)
+          .attr("width", distBtw)
+          .attr("height", boxHeight)
+          .style("stroke", "black")
+          .style("fill", "black")
+          .attr("class", "distRemove")
+
+        distChart.append("text")
+          .text("Undisclosed")
+          .attr("x", distChartWidth - distChartWidth / 3 + distBtw + 5)
+          .attr("y", distChartHeight - distChartHeight / 4 + 25 + boxHeight / 2 + 5)
+          .attr("class", "distRemove")
+
+        distChart.append("rect")
+          .attr("x", distChartWidth - distChartWidth / 3)
+          .attr("y", distChartHeight - distChartHeight / 4 + 27 + boxHeight)
+          .attr("width", distBtw)
+          .attr("height", boxHeight)
+          .style("stroke", "black")
+          .style("fill", "grey")
+          .attr("class", "distRemove")
+
+        distChart.append("text")
+          .text("NA")
+          .attr("x", distChartWidth - distChartWidth / 3 + distBtw + 5)
+          .attr("y", distChartHeight - distChartHeight / 4 + 27 + 3 * boxHeight / 2 + 5)
+          .attr("class", "distRemove")
+
+
+        if (!isHidden) {
+          let legendExtent = [0, colorScale.quantiles()[0],
+            colorScale.quantiles()[1], colorScale.quantiles()[2], colorExtent[1]]
+
+
+          const colorLegendScale = d3.scaleOrdinal()
+            .domain(legendExtent)
+            .range([0, distBtw, distBtw * 2, distBtw * 3, distBtw * 4])
+
+          let bottomAxisColor = d3.axisBottom(colorLegendScale)
+            .ticks(4)
+            .tickValues(legendExtent)
+            .tickFormat(d3.format(".2s"))
+
+          for (let i = 0; i < useScheme.length; i++) {
+            distChart.append("rect")
+              .attr("x", distChartWidth / 3 + i * distBtw)
+              .attr("y", distChartHeight - 75 - boxHeight)
+              .attr("width", distBtw)
+              .attr("height", boxHeight)
+              .style("stroke", "black")
+              .style("fill", useScheme[i]);
+
+          }
+
+          distChart.append("g")
+            .attr("class", "x axis distRemove")
+            .attr("transform",
+              `translate(${distChartWidth / 3},${distChartHeight - 75})`
+            )
+            .call(bottomAxisColor);
+
+        } else {
+          distChart.append("text")
+            .text("Scale not applicable")
+            .attr("x", distChartWidth / 3 + 100)
+            .attr("y", distChartHeight - 70)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "hanging")
+            .style("fill", "black")
+            .attr("class", "distRemove")
+            .style("font-family", "monospace")
+
+        }
+
+        distChart.append("text")
+          .text("Number of Speakers")
+          .attr("x", distChartWidth / 3 + 100)
+          .attr("y", distChartHeight - 50)
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "hanging")
+          .style("fill", "black")
+          .attr("class", "distRemove")
+
+      }
+
+      updateDistMap()
+
+      function distMouseOver() {
+        tt.style("visibility", "visible");
+
+        name = this.id
+        if (name.includes("-dist")) {
+          name = this.id.split("-")[0]
+        }
+
+        let key = Object.keys(state2Abb).find(k => state2Abb[k] === name);
+
+        keyNice = key.replace("-", " ")
+        ttStateText.text(keyNice.toUpperCase())
+
+        let speakerCount = states_lang.filter((d) => {
+          return d["abbr"] == name && d["languages"] == selectedLangDist
+        })
+
+        speakerTxt = ""
+        if (speakerCount.length == 0) {
+          speakerTxt = "NA"
+        } else {
+          if (speakerCount[0]["num_speakers"] == -1) {
+            speakerTxt = "Undisclosed"
+          } else {
+            speakerTxt = commaFormat(speakerCount[0]["num_speakers"]) + " Speakers"
+          }
+        }
+
+        ttSpeakerText.text(speakerTxt)
+
+        console.log(keyNice.toUpperCase())
+        console.log(speakerTxt)
+
+        d3.select("#" + name + "-dist")
+          .style("stroke", "black")
+          .style("stroke-width", 3)
+
+      }
+
+      function distMouseOut() {
+        tt.style("visibility", "hidden");
+
+        let name = this.id
+        if (this.id.includes("-dist")) {
+          name = this.id.split("-")[0]
+        }
+
+        d3.select("#" + name + "-dist")
+          .style("stroke", "")
+
+
+      }
+
+
+      let ttWidth = 200
+      let ttHeight = 75
+
+      let ttX = distChartWidth / 2 - ttWidth / 2
+      let ttY = distMargin.top
+
+      let tt = distChart.append("g")
+        .attr("class", "tooltip")
+        .attr("visibility", "hidden");
+
+      tt.append("rect")
+        .attr("fill", "black")
+        .attr("opacity", .8)
+        .attr("rx", 6)
+        .attr("ry", 6)
+        .attr("x", ttX)
+        .attr("y", ttY)
+        .attr("width", ttWidth)
+        .attr("height", ttHeight);
+
+      let ttStateText = tt.append("text")
+        .attr("fill", "white")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .attr("x", ttX + (ttWidth / 2))
+        .attr("y", ttY + 10)
+        .attr("class", "larger")
+        .style("font-weight", "bold");
+
+      let ttSpeakerText = tt.append("text")
+        .attr("fill", "white")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "hanging")
+        .attr("x", ttX + (ttWidth / 2))
+        .attr("y", ttY + 30)
+        .attr("class", "larger")
+        .style("font-weight", "bold");
+
+    }
+
+    requestData()
+
+  </script>
+</body>
+
+</html>
